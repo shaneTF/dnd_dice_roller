@@ -7,6 +7,7 @@ import {
   DiceTen,
   DiceTwenty,
 } from "./components/dice";
+import ImportButton from "./components/importButton";
 import "./App.css";
 
 function App() {
@@ -22,8 +23,13 @@ function App() {
     setDiceRoll(Math.floor(Math.random() * parseInt(selectedValue)) + 1);
   };
 
+  const handleFile = (file) => {
+    console.log("Selected file:", file);
+  };
+
   return (
     <>
+      <ImportButton onFileSelect={handleFile} />
       <div>
         <DiceTwo selectedValue={selectedValue} onChange={handleChange} />
         <DiceFour selectedValue={selectedValue} onChange={handleChange} />
