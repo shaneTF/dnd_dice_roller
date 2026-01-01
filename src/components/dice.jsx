@@ -1,7 +1,10 @@
+import "./dice.css";
+
 export const DiceTwo = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d2"
         value="2"
@@ -15,8 +18,9 @@ export const DiceTwo = ({ selectedValue, onChange }) => {
 
 export const DiceFour = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d4"
         value="4"
@@ -30,8 +34,9 @@ export const DiceFour = ({ selectedValue, onChange }) => {
 
 export const DiceSix = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d6"
         value="6"
@@ -45,8 +50,9 @@ export const DiceSix = ({ selectedValue, onChange }) => {
 
 export const DiceEight = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d8"
         value="8"
@@ -60,8 +66,9 @@ export const DiceEight = ({ selectedValue, onChange }) => {
 
 export const DiceTen = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d10"
         value="10"
@@ -75,8 +82,9 @@ export const DiceTen = ({ selectedValue, onChange }) => {
 
 export const DiceTwenty = ({ selectedValue, onChange }) => {
   return (
-    <label>
+    <label className="dice-select-label">
       <input
+        className="hidden-radio"
         type="radio"
         name="1d20"
         value="20"

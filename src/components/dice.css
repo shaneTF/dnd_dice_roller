@@ -1,0 +1,24 @@
+.hidden-radio {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
+}
+
+.dice-select-label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 2rem;
+  font-weight: normal;
+}
+
+.dice-select-label:has(input[type="radio"]:checked) {
+  color: #7ffd7fff;
+  font-weight: bold;
+}

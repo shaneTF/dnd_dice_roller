@@ -36,7 +36,7 @@ function App() {
         <button onClick={handleClick}>Roll Dice!</button>
       </div>
       <div>
-        <span>{diceRoll}</span>
+        <span className="roll-result">{diceRoll}</span>
       </div>
     </>
   );
