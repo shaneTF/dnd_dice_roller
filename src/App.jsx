@@ -34,18 +34,35 @@ function App() {
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     console.log(pdf);
 
-    let fullText = "";
+    let extractedText = "";
 
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const content = await page.getTextContent();
       const strings = content.items.map((item) => item.str);
-      fullText += strings.join(" ") + "\n\n";
+      extractedText += strings.join(" ") + "\n";
     }
+    console.log("Extracted Text:", extractedText);
 
-    console.log("Extracted Text:", fullText);
-    setParsedText(fullText);
+    const statsText = extractCharacterStats(extractedText);
+    console.log("Extracted Character Stats:", statsText);
+    setParsedText(statsText);
   };
+
+  function extractCharacterStats(text) {
+    const get = (regex) => text.match(regex)?.[1]?.trim() || null;
+    const stat = (name) => {
+      const regex = new RegExp(name + "[^0-9]{0,40}(\\d{1,2})", "i");
+      return text.match(regex)?.[1] || null;
+    };
+    return {
+      class: get(
+        /(Cleric|Fighter|Wizard|Rogue|Barbarian|Paladin|Druid|Monk|Ranger|Warlock|Sorcerer)/i
+      ),
+      level: get(/(\d+)(?:st|nd|rd|th)\s*LEVEL/i),
+      strength: stat("Strength"),
+    };
+  }
 
   return (
     <>

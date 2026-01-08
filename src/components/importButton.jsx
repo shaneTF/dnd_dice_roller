@@ -13,6 +13,7 @@ export default function ImportButton({ onFileSelect }) {
         Upload Character Sheet
         <input
           type="file"
+          accept="application/pdf"
           onChange={handleFileChange}
           className="hidden-input"
         />
