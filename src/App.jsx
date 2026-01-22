@@ -7,11 +7,20 @@ import {
   DiceTen,
   DiceTwenty,
 } from "./components/dice";
+import CharacterStats from "./components/characterStats";
 import "./App.css";
 
 function App() {
   const [selectedValue, setSelectedvalue] = useState("6");
   const [diceRoll, setDiceRoll] = useState(null);
+  const [stats, setStats] = useState({
+    str: "",
+    dex: "",
+    con: "",
+    int: "",
+    wis: "",
+    cha: "",
+  });
 
   const handleChange = (event) => {
     setSelectedvalue(event.target.value);
@@ -23,6 +32,14 @@ function App() {
 
   return (
     <>
+      <div>
+        <h1>Character Stats</h1>
+        <CharacterStats stats={stats} onStatChange={setStats} />
+      </div>
+      <div>
+        <h1>Dice Roller</h1>
+        <p>Select a die and roll it!</p>
+      </div>
       <div>
         <DiceTwo selectedValue={selectedValue} onChange={handleChange} />
         <DiceFour selectedValue={selectedValue} onChange={handleChange} />
