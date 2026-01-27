@@ -22,19 +22,37 @@ function App() {
     cha: "",
   });
 
+  // setup useEffect to calculate stat modifiers on stats change
+
+  const diceMath = () => {
+    return Math.floor(Math.random() * parseInt(selectedValue)) + 1;
+  };
+
   const handleChange = (event) => {
     setSelectedvalue(event.target.value);
   };
 
   const handleClick = () => {
-    setDiceRoll(Math.floor(Math.random() * parseInt(selectedValue)) + 1);
+    setDiceRoll(diceMath);
+  };
+
+  const handleStatClick = (statKey) => {
+    const stat = stats[statKey] || 0;
+    const statModifier = parseInt(stat) == 0 ? 0 : Math.floor((stat - 10) / 2);
+    const baseRoll = diceMath();
+    console.log("Base Roll:", baseRoll, "Stat Modifier:", statModifier);
+    setDiceRoll(baseRoll + parseInt(statModifier));
   };
 
   return (
     <>
       <div>
         <h1>Character Stats</h1>
-        <CharacterStats stats={stats} onStatChange={setStats} />
+        <CharacterStats
+          stats={stats}
+          onStatChange={setStats}
+          handleClick={handleStatClick}
+        />
       </div>
       <div>
         <h1>Dice Roller</h1>

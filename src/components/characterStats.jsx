@@ -1,6 +1,6 @@
 import "./characterStats.css";
 
-export default function CharacterStats({ stats, onStatChange }) {
+export default function CharacterStats({ stats, onStatChange, handleClick }) {
   const statsList = [
     { key: "str", label: "STR" },
     { key: "dex", label: "DEX" },
@@ -13,7 +13,9 @@ export default function CharacterStats({ stats, onStatChange }) {
     <div className="stat-list">
       {statsList.map((stat) => (
         <div className="stat-block" key={stat.key}>
-          <div className="stat-label">{stat.label}</div>
+          <div className="stat-label" onClick={() => handleClick(stat.key)}>
+            {stat.label}
+          </div>
           <input
             type="text"
             className="stat-input"
