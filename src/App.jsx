@@ -66,7 +66,10 @@ function App() {
   return (
     <>
       <div>
-        <h1>Character Stats</h1>
+        <h1>Enter your characters stats!</h1>
+        <p>Click a stat to roll with its modifier.</p>
+      </div>
+      <div>
         <CharacterStats
           stats={stats}
           statModifier={statModifier}
@@ -74,10 +77,8 @@ function App() {
           handleClick={handleStatClick}
         />
       </div>
-      <div>
-        <h1>Dice Roller</h1>
-        <p>Select a die and roll it!</p>
-      </div>
+      <h1>Dice Roller</h1>
+      <p>Select a die and roll it!</p>
       <div>
         <DiceTwo selectedValue={selectedValue} onChange={handleChange} />
         <DiceFour selectedValue={selectedValue} onChange={handleChange} />
