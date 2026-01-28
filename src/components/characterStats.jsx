@@ -1,6 +1,11 @@
 import "./characterStats.css";
 
-export default function CharacterStats({ stats, onStatChange, handleClick }) {
+export default function CharacterStats({
+  stats,
+  statModifier,
+  onStatChange,
+  handleClick,
+}) {
   const statsList = [
     { key: "str", label: "STR" },
     { key: "dex", label: "DEX" },
@@ -16,6 +21,7 @@ export default function CharacterStats({ stats, onStatChange, handleClick }) {
           <div className="stat-label" onClick={() => handleClick(stat.key)}>
             {stat.label}
           </div>
+
           <input
             type="text"
             className="stat-input"
@@ -24,6 +30,11 @@ export default function CharacterStats({ stats, onStatChange, handleClick }) {
               onStatChange({ ...stats, [stat.key]: e.target.value })
             }
           />
+          <span className="stat-modifier">
+            {statModifier[stat.key] >= 0
+              ? ` +${statModifier[stat.key]}`
+              : ` ${statModifier[stat.key]}`}
+          </span>
         </div>
       ))}
     </div>

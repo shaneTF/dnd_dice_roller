@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   DiceTwo,
   DiceFour,
@@ -21,8 +21,28 @@ function App() {
     wis: "",
     cha: "",
   });
+  const [statModifier, setStatModifier] = useState({
+    str: 0,
+    dex: 0,
+    con: 0,
+    int: 0,
+    wis: 0,
+    cha: 0,
+  });
 
-  // setup useEffect to calculate stat modifiers on stats change
+  useEffect(() => {
+    const newStatModifier = {};
+    Object.keys(stats).forEach((statKey) => {
+      const statValue = stats[statKey] || 0;
+      newStatModifier[statKey] =
+        parseInt(statValue) == 0 ? 0 : Math.floor((statValue - 10) / 2);
+    });
+    Object.keys(newStatModifier).forEach((key) => {
+      if (statModifier[key] !== newStatModifier[key]) {
+        setStatModifier(newStatModifier);
+      }
+    });
+  }, [stats, statModifier]);
 
   const diceMath = () => {
     return Math.floor(Math.random() * parseInt(selectedValue)) + 1;
@@ -37,11 +57,10 @@ function App() {
   };
 
   const handleStatClick = (statKey) => {
-    const stat = stats[statKey] || 0;
-    const statModifier = parseInt(stat) == 0 ? 0 : Math.floor((stat - 10) / 2);
     const baseRoll = diceMath();
-    console.log("Base Roll:", baseRoll, "Stat Modifier:", statModifier);
-    setDiceRoll(baseRoll + parseInt(statModifier));
+    console.log("Base Roll: ", baseRoll);
+    console.log("Stat Modifier: ", statModifier[statKey]);
+    setDiceRoll(baseRoll + parseInt(statModifier[statKey]));
   };
 
   return (
@@ -50,6 +69,7 @@ function App() {
         <h1>Character Stats</h1>
         <CharacterStats
           stats={stats}
+          statModifier={statModifier}
           onStatChange={setStats}
           handleClick={handleStatClick}
         />
