@@ -12,9 +12,10 @@ import "./App.css";
 
 function App() {
   const [selectedValue, setSelectedvalue] = useState("6");
+  const [diceSelected, setDiceSelected] = useState(null);
   const [diceRoll, setDiceRoll] = useState(null);
-  const [statMod, setStatMod] = useState(null);
-  const [diceRolled, setDiceRolled] = useState(false);
+  const [rollHistory, setRollHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
   const [stats, setStats] = useState({
     str: "",
     dex: "",
@@ -29,69 +30,108 @@ function App() {
       Object.entries(stats).map(([key, value]) => {
         const score = parseInt(value) || 0;
         const mod = score === 0 ? 0 : Math.floor((score - 10) / 2);
-        setStatMod(mod);
+        console.log("Stat Modifier Calculation: ", key, score, mod);
         return [key, mod];
       }),
     );
   }, [stats]);
 
   const diceMath = () => {
-    setDiceRolled(true);
     return Math.floor(Math.random() * parseInt(selectedValue)) + 1;
   };
 
   const handleChange = (event) => {
+    setDiceSelected(event.target.name);
     setSelectedvalue(event.target.value);
   };
 
-  const handleClick = () => {
-    setDiceRoll(diceMath);
-  };
-
-  const handleStatClick = (statKey) => {
+  const handleClick = (statKey) => {
     const baseRoll = diceMath();
-    console.log("Base Roll: ", baseRoll);
-    console.log("Stat Modifier: ", statModifier[statKey]);
-    setStatMod(statModifier[statKey]);
-    setDiceRoll(baseRoll + parseInt(statModifier[statKey]));
+    if (statModifier[statKey] !== undefined) {
+      setDiceRoll(baseRoll + statModifier[statKey]);
+    } else {
+      setDiceRoll(baseRoll);
+    }
+    console.log(
+      "Rolled: ",
+      baseRoll,
+      " with modifier: ",
+      statModifier[statKey],
+    );
+    setRollHistory((prevHistory) => [
+      {
+        dice: diceSelected,
+        roll: baseRoll,
+        modifier: statModifier[statKey],
+        total: baseRoll + (statModifier[statKey] || 0),
+      },
+      ...prevHistory.slice(0, 9),
+    ]);
   };
 
   return (
     <>
-      <div>
-        <h1>Enter your characters stats!</h1>
-        <p>Click a stat to roll with its modifier.</p>
-      </div>
-      <div>
-        <CharacterStats
-          stats={stats}
-          statModifier={statModifier}
-          onStatChange={setStats}
-          handleClick={handleStatClick}
-        />
-      </div>
-      <h1>Dice Roller</h1>
-      <p>Select a die and roll it!</p>
-      <div>
-        <DiceTwo selectedValue={selectedValue} onChange={handleChange} />
-        <DiceFour selectedValue={selectedValue} onChange={handleChange} />
-        <DiceSix selectedValue={selectedValue} onChange={handleChange} />
-        <DiceEight selectedValue={selectedValue} onChange={handleChange} />
-        <DiceTen selectedValue={selectedValue} onChange={handleChange} />
-        <DiceTwenty selectedValue={selectedValue} onChange={handleChange} />
-      </div>
-      <div>
-        <button onClick={handleClick}>Roll Dice!</button>
-      </div>
-      <div>
-        {diceRolled && (
-          <span>
-            {statMod} + {diceRoll}
-          </span>
-        )}
-      </div>
-      <div>
-        <span className="roll-result">{diceRoll}</span>
+      <div className="layout">
+        <div className="left-panel">
+          <div>
+            <h1>Enter your characters stats!</h1>
+            <p>Click a stat to roll with its modifier.</p>
+          </div>
+          <div>
+            <CharacterStats
+              stats={stats}
+              statModifier={statModifier}
+              onStatChange={setStats}
+              handleClick={handleClick}
+            />
+          </div>
+          <h1>Dice Roller</h1>
+          <p>Select a die and roll it!</p>
+          <div>
+            <DiceTwo selectedValue={selectedValue} onChange={handleChange} />
+            <DiceFour selectedValue={selectedValue} onChange={handleChange} />
+            <DiceSix selectedValue={selectedValue} onChange={handleChange} />
+            <DiceEight selectedValue={selectedValue} onChange={handleChange} />
+            <DiceTen selectedValue={selectedValue} onChange={handleChange} />
+            <DiceTwenty selectedValue={selectedValue} onChange={handleChange} />
+          </div>
+          <div>
+            <button onClick={handleClick}>Roll Dice!</button>
+          </div>
+          <div>
+            <span className="roll-result">{diceRoll}</span>
+          </div>
+        </div>
+
+        <div className="right-panel">
+          <div
+            className="accordion-toggle"
+            onClick={() => setShowHistory((prev) => !prev)}
+          >
+            <h2>History</h2>
+            <span className={`accordion-arrow ${showHistory ? "open" : ""}`}>
+              {">"}
+            </span>
+          </div>
+          <div className={`accordion-wrapper ${showHistory ? "open" : ""}`}>
+            {rollHistory.length === 0 && <p>No rolls yet.</p>}
+
+            {rollHistory.length > 0 && (
+              <div className="roll-history">
+                <ul>
+                  {rollHistory.slice(-10).map((entry, index) => (
+                    <li key={index}>
+                      <strong>{entry.dice}</strong> | Roll: {entry.roll} |
+                      Modifier:{" "}
+                      {entry.modifier !== undefined ? entry.modifier : 0} |
+                      Total: {entry.total}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
