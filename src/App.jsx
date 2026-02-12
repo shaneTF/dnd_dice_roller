@@ -8,14 +8,17 @@ import {
   DiceTwenty,
 } from "./components/dice";
 import CharacterStats from "./components/characterStats";
+import CharacterLevel from "./components/characterLevel";
 import "./App.css";
 
+// Should probably clean this up later
 function App() {
   const [selectedValue, setSelectedvalue] = useState("6");
   const [diceSelected, setDiceSelected] = useState(null);
   const [diceRoll, setDiceRoll] = useState(null);
   const [rollHistory, setRollHistory] = useState([]);
   const [showHistory, setShowHistory] = useState(false);
+  const [characterLevel, setCharacterLevel] = useState(1);
   const [stats, setStats] = useState({
     str: "",
     dex: "",
@@ -76,6 +79,12 @@ function App() {
           <div>
             <h1>Enter your characters stats!</h1>
             <p>Click a stat to roll with its modifier.</p>
+          </div>
+          <div>
+            <CharacterLevel
+              characterLevel={characterLevel}
+              characterLevelChange={setCharacterLevel}
+            />
           </div>
           <div>
             <CharacterStats
