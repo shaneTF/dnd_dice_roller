@@ -60,3 +60,9 @@
 .accordion-arrow.open {
   transform: rotate(90deg);
 }
+
+.character-level {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}

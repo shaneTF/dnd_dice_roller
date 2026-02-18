@@ -80,12 +80,13 @@ function App() {
             <h1>Enter your characters stats!</h1>
             <p>Click a stat to roll with its modifier.</p>
           </div>
-          <div>
+          <div className="character-level">
             <CharacterLevel
               characterLevel={characterLevel}
               characterLevelChange={setCharacterLevel}
             />
           </div>
+
           <div>
             <CharacterStats
               stats={stats}
@@ -108,7 +109,13 @@ function App() {
             <button onClick={handleClick}>Roll Dice!</button>
           </div>
           <div>
-            <span className="roll-result">{diceRoll}</span>
+            {diceRoll ? (
+              <span className="roll-result">{diceRoll}</span>
+            ) : (
+              <span className="roll-result" style={{ opacity: 0 }}>
+                0
+              </span>
+            )}
           </div>
         </div>
 
