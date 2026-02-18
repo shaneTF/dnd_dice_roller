@@ -39,6 +39,10 @@ function App() {
     );
   }, [stats]);
 
+  const proficiencyBonus = useMemo(() => {
+    return Math.floor((characterLevel - 1) / 4) + 2;
+  }, [characterLevel]);
+
   const diceMath = () => {
     return Math.floor(Math.random() * parseInt(selectedValue)) + 1;
   };
@@ -80,11 +84,16 @@ function App() {
             <h1>Enter your characters stats!</h1>
             <p>Click a stat to roll with its modifier.</p>
           </div>
-          <div className="character-level">
-            <CharacterLevel
-              characterLevel={characterLevel}
-              characterLevelChange={setCharacterLevel}
-            />
+          <div className="character-level-wrapper">
+            <div className="character-level">
+              <CharacterLevel
+                characterLevel={characterLevel}
+                characterLevelChange={setCharacterLevel}
+              />
+              <span className="proficiency-bonus">
+                Proficiency Bonus: +{proficiencyBonus}
+              </span>
+            </div>
           </div>
 
           <div>
